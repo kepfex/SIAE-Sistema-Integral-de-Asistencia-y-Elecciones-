@@ -25,6 +25,7 @@
                 @if ($index % 2 == 0) </tr><tr> @endif
                 <td>
                     <div class="card">
+                        <img src="{{$matricula->alumno->imagen_url ? 'Tiene imagen': 'No tiene imagen'}}" alt="Imagen de Perfil - {{ $matricula->alumno->nombres }}">
                         <h2>{{ $matricula->alumno->nombres }} {{ $matricula->alumno->apellidos }}</h2>
                         <p>Grado: {{ $matricula->grado->nombre }}</p>
                         <p>Sección: {{ $matricula->seccion->nombre }}</p>
