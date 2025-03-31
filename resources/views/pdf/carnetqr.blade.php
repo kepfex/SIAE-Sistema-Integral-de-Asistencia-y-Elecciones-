@@ -25,12 +25,17 @@
                 @if ($index % 2 == 0) </tr><tr> @endif
                 <td>
                     <div class="card">
-                        <img src="{{$matricula->alumno->imagen_url ? 'Tiene imagen': 'No tiene imagen'}}" alt="Imagen de Perfil - {{ $matricula->alumno->nombres }}">
+                        <img class="card__perfil" src="{{$matricula->alumno->imagen_url ? 'Tiene imagen': public_path('img/usuario.svg') }}" alt="Imagen de Perfil - {{ $matricula->alumno->nombres }}">
                         <h2>{{ $matricula->alumno->nombres }} {{ $matricula->alumno->apellidos }}</h2>
                         <p>Grado: {{ $matricula->grado->nombre }}</p>
                         <p>Sección: {{ $matricula->seccion->nombre }}</p>
-                    </div>
-                </td>
+                        <img src="data:image/png;base64,{{ base64_encode(QrCode::format('png')->size(100)->generate($matricula->alumno->dni)) }}" alt="QR">
+                        </div>
+                    <!-- Generar el QR con el DNI -->
+                    
+                    {{$matricula->alumno->dni}}
+
+                    </td>
             @endforeach
         </tr>
     </table>
