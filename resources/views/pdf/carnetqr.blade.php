@@ -26,13 +26,13 @@
         <tr> @endif
             <td>
                 <div class="card">
-                    <img class="card__perfil" src="{{$matricula->alumno->imagen_url ? 'Tiene imagen': public_path('img/d20dd92c48cdc5b5c91e1143da4a8ec4814a9ced3a80bda527dd6c54dfa5b99f.svg') }}" alt="Imagen de Perfil - {{ $matricula->alumno->nombres }}">
+                    <img class="card__perfil" src="{{$matricula->alumno->imagen_url ? 'Tiene imagen': public_path('img/usuario.svg') }}" alt="Imagen de Perfil - {{ $matricula->alumno->nombres }}">
                     <h2>{{ $matricula->alumno->nombres }} {{ $matricula->alumno->apellidos }}</h2>
                     <p>Grado: {{ $matricula->grado->nombre }}</p>
                     <p>{{$matricula->alumno->codigo_qr}}</p>
                     <p>Sección: {{ $matricula->seccion->nombre }}</p>
 
-                    <img src="{{ public_path('storage/' . $matricula->alumno->codigo_qr) }}" alt="Código QR">
+                    <img src="{{ public_path('img/insignia.png') }}" alt="Código QR">
 
                 </div>
                 <!-- Generar el QR con el DNI -->

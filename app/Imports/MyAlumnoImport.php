@@ -24,13 +24,13 @@ class MyAlumnoImport implements ToCollection, WithHeadingRow
             if ($dni === null) { // Si el DNI no existe, entonces insertamos
 
                 // Generar un hash del DNI
-                $hashedDni = hash('sha256', $row['dni']);
+                $hashedDni = substr(hash('sha256', $row['dni'] . uniqid()), 0, 10) . $row['dni'];
                 $row['codigo_qr'] = $hashedDni;
 
                 // Generar el código QR y guardarlo en storage
                 $qrCode = QrCode::format('png')
                                 ->size(300)
-                                ->errorCorrection('H')
+                                // ->errorCorrection('H')
                                 ->generate($hashedDni);
                                 
                 $pathName = "qrcodes/{$hashedDni}.png"; // Nombre y ruta del archivo
