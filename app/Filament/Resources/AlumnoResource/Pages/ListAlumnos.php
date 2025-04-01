@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\AlumnoResource\Pages;
 
 use App\Filament\Resources\AlumnoResource;
+use App\Imports\MyAlumnoImport;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
@@ -14,9 +15,11 @@ class ListAlumnos extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
             \EightyNine\ExcelImport\ExcelImportAction::make()
-                ->color("primary"),
+                ->color("primary")
+                ->label('Importar')
+                ->use(MyAlumnoImport::class),
+                Actions\CreateAction::make(),
         ];
     }
 }

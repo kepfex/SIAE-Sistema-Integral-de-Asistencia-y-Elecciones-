@@ -92,7 +92,7 @@ class AlumnoResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                     ExportBulkAction::make()->exports([
-                        ExcelExport::make()->withFilename('Alumnos_'.date('Y-m-d') . ' - export'),
+                        ExcelExport::make('table')->fromTable()->withFilename('AlumnosACP_'.date('Y-m-d') . ' - export'),
                     ]),
                 ]),
             ]);

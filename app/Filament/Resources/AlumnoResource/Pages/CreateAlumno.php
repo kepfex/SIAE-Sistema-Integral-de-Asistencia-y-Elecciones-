@@ -16,14 +16,17 @@ class CreateAlumno extends CreateRecord
     {
         // Generar un hash del DNI
         $hashedDni = hash('sha256', $data['dni']);
-        $filename = "qrcodes/{$hashedDni}.png";
+        $data['codigo_qr'] = $hashedDni; // Guardar el hash en la BD
 
-        // Generar el código QR
-        $qrCode = QrCode::format('png')->size(300)->generate($data['dni']);
-        Storage::disk('public')->put($filename, $qrCode);
+        // Generar el código QR y guardarlo en storage
+        $qrCode = QrCode::format('png')
+            ->size(300)
+            ->errorCorrection('H')
+            ->generate($hashedDni);
 
-        // Guardar la ruta en la BD
-        $data['codigo_qr'] = $filename;
+        $pathName = "qrcodes/{$hashedDni}.png"; // Nombre y ruta del archivo
+        Storage::disk('public')->put($pathName, $qrCode); // Guardamos en el Storage
+
 
         return $data;
     }

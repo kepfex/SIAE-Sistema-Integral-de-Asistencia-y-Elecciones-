@@ -24,5 +24,6 @@ class PdfController extends Controller
         $pdf->loadView('pdf.carnetqr', compact('matriculas'));
 
         return $pdf->stream('carnets_reporte.pdf'); // Mostrar el PDF en el navegador
+        // return view('pdf.carnetqr', compact('matriculas'));
     }
 }

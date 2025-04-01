@@ -22,20 +22,24 @@
     <table>
         <tr>
             @foreach ($matriculas as $index => $matricula)
-                @if ($index % 2 == 0) </tr><tr> @endif
-                <td>
-                    <div class="card">
-                        <img class="card__perfil" src="{{$matricula->alumno->imagen_url ? 'Tiene imagen': public_path('img/usuario.svg') }}" alt="Imagen de Perfil - {{ $matricula->alumno->nombres }}">
-                        <h2>{{ $matricula->alumno->nombres }} {{ $matricula->alumno->apellidos }}</h2>
-                        <p>Grado: {{ $matricula->grado->nombre }}</p>
-                        <p>Sección: {{ $matricula->seccion->nombre }}</p>
-                        <img src="data:image/png;base64,{{ base64_encode(QrCode::format('png')->size(100)->generate($matricula->alumno->dni)) }}" alt="QR">
-                        </div>
-                    <!-- Generar el QR con el DNI -->
-                    
-                    {{$matricula->alumno->dni}}
+            @if ($index % 2 == 0) </tr>
+        <tr> @endif
+            <td>
+                <div class="card">
+                    <img class="card__perfil" src="{{$matricula->alumno->imagen_url ? 'Tiene imagen': public_path('img/d20dd92c48cdc5b5c91e1143da4a8ec4814a9ced3a80bda527dd6c54dfa5b99f.svg') }}" alt="Imagen de Perfil - {{ $matricula->alumno->nombres }}">
+                    <h2>{{ $matricula->alumno->nombres }} {{ $matricula->alumno->apellidos }}</h2>
+                    <p>Grado: {{ $matricula->grado->nombre }}</p>
+                    <p>{{$matricula->alumno->codigo_qr}}</p>
+                    <p>Sección: {{ $matricula->seccion->nombre }}</p>
 
-                    </td>
+                    <img src="{{ public_path('storage/' . $matricula->alumno->codigo_qr) }}" alt="Código QR">
+
+                </div>
+                <!-- Generar el QR con el DNI -->
+
+                {{$matricula->alumno->dni}}
+
+            </td>
             @endforeach
         </tr>
     </table>
