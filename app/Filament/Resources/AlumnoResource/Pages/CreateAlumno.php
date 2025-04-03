@@ -11,6 +11,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 class CreateAlumno extends CreateRecord
 {
     protected static string $resource = AlumnoResource::class;
+    protected static bool $canCreateAnother = false;
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
@@ -31,5 +32,10 @@ class CreateAlumno extends CreateRecord
 
 
         return $data;
+    }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
     }
 }

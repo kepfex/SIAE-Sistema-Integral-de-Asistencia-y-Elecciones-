@@ -10,8 +10,8 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Collection;
-
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
 class MatriculaResource extends Resource
 {
@@ -53,18 +53,18 @@ class MatriculaResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('alumno.dni')
-                    ->label('N° DNI')
+                    ->label('Nro DNI')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('alumno.nombres')
                     ->label('Nombres')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('alumno')
-                    ->label('Apellidos')
+                    ->label('Apellido paterno')
                     ->formatStateUsing(fn($record) => $record->alumno->apellido_paterno . ' ' . $record->alumno->apellido_materno)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('anioEscolar.nombre')
-                    ->label('Año Escolar')
+                    ->label('Periodo Escolar')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('grado.nombre')
                     ->sortable(),
@@ -90,8 +90,12 @@ class MatriculaResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ExportAction::make()
-                        ->label('Generar Carnet'),
+                    ExportBulkAction::make()
+                        ->exports([
+                            ExcelExport::make('table')
+                                ->fromTable()
+                                ->withFilename('AlumnosMatriculados' . date('Y-m-d') . ' - export'),
+                    ]),
                 ]),
                 Tables\Actions\BulkAction::make('export_qr')
                     ->button()
@@ -119,16 +123,4 @@ class MatriculaResource extends Resource
         ];
     }
 
-    public static function generarPDF(Collection $records)
-    {
-        // dd(json_encode($records, JSON_UNESCAPED_UNICODE));
-        // dd($records->toArray());
-        // Convertir los datos a UTF-8 correctamente
-        // $records = $records->map(function ($record) {
-        //     return array_map(fn($value) => mb_convert_encoding($value, 'UTF-8', 'auto'), $record->toArray());
-        // });
-    
-        // $pdf = Pdf::loadView('pdf.carnetqr', ['matriculas' => [['nombre' => 'Pedro Ramirez']]]);
-        // return $pdf->stream('carnets_reporte.pdf');
-    }
 }

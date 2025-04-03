@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateMatricula extends CreateRecord
 {
     protected static string $resource = MatriculaResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }
