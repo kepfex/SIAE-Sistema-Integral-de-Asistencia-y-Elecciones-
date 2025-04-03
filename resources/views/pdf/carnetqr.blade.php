@@ -16,32 +16,55 @@
     <link rel="stylesheet" href="{{ public_path('css/pdf/carnet-qr.css') }}">
 </head>
 
+<style>
+    @page {
+        margin-top: 5mm;    /* Margen superior */
+        margin-bottom: 5mm; /* Margen inferior */
+    }
+</style>
+
 <body>
-    <h2>Lista de Carnets Generados</h2>
-
-    <table>
-        <tr>
-            @foreach ($matriculas as $index => $matricula)
-            @if ($index % 2 == 0) </tr>
-        <tr> @endif
+    <table width="100%">
+        @foreach ($matriculas as $index => $matricula)
+        @if ($index % 2 == 0)
+        <tr> <!-- Nueva fila cada 2 tarjetas -->
+            @endif
             <td>
-                <div class="card">
-                    <img class="card__perfil" src="{{$matricula->alumno->imagen_url ? 'Tiene imagen': public_path('img/usuario.svg') }}" alt="Imagen de Perfil - {{ $matricula->alumno->nombres }}">
-                    <h2>{{ $matricula->alumno->nombres }} {{ $matricula->alumno->apellidos }}</h2>
-                    <p>Grado: {{ $matricula->grado->nombre }}</p>
-                    <p>{{$matricula->alumno->codigo_qr}}</p>
-                    <p>Sección: {{ $matricula->seccion->nombre }}</p>
+                <div class="card" style="width: {{ count($matriculas) == 1 ? '50%' : '100%' }};">
+                    <p class="nombre_ie">C.N.E. "Aurelio Cárdenas Pachas"</p>
 
-                    <img src="{{ public_path('img/insignia.png') }}" alt="Código QR">
+                    <table width="100%">
+                        <tr>
+                            <!-- Columna 1: Datos del Estudiante -->
+                            <td width="50%">
+                                <div class="datos_estudiante">
+                                    <img class="card__perfil" src="{{ $matricula->alumno->imagen_url ? 'Tiene imagen': public_path('img/usuario.svg') }}" alt="Imagen de Perfil - {{ $matricula->alumno->nombres }}">
+                                    <p class="estudiante_nombres">
+                                        {{ $matricula->alumno->nombres }} <br>
+                                        <span class="estudiante_apellidos">
+                                            {{ $matricula->alumno->apellido_paterno }} {{ $matricula->alumno->apellido_materno }}
+                                        </span>
+                                    </p>
 
+                                    <p style="color: blue;">Grado: <b style="font-size: 14px;">{{ $matricula->grado->nombre }}</b></p>
+                                    <p style="color: blue;">Sección: <b>{{ $matricula->seccion->nombre }}</b></p>
+                                </div>
+                            </td>
+
+                            <!-- Columna 2: Código QR -->
+                            <td width="50%">
+                                <div class="qr_content">
+                                    <img class="qr_image" src="{{ public_path('storage/qrcodes/' . $matricula->alumno->codigo_qr) . '.png' }}" alt="imagen qr">
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
-                <!-- Generar el QR con el DNI -->
-
-                {{$matricula->alumno->dni}}
-
             </td>
-            @endforeach
-        </tr>
+            @if ($index % 2 == 1 || $index == count($matriculas) - 1)
+        </tr> <!-- Cerrar fila después de 2 tarjetas o si es el último elemento -->
+        @endif
+        @endforeach
     </table>
 
 </body>
