@@ -16,7 +16,7 @@ class Alumno extends Model
         'genero',
         'celular',
         'codigo_qr',
-        'image_url',
+        'imagen_url',
     ];
 
 

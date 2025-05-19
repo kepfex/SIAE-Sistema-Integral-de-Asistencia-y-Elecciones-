@@ -18,7 +18,9 @@ body {
 }
 
 .card__perfil {
-    width: 50%;
+    width: 70;
+    height: 90px;
+    padding-top: 2px;
 }
 
 .datos_estudiante {
@@ -45,7 +47,7 @@ body {
 .nombre_ie {
     padding: 4px 0;
     text-align: center;
-    color: white;
+    color: rgb(0, 81, 255);
     font-weight: bold;
     background-color: red;
 }

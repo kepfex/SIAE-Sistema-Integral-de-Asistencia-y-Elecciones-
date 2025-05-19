@@ -1,0 +1,44 @@
+#qr-reader__scan_region img {
+    margin: 0 auto;
+}
+
+#html5-qrcode-button-camera-permission {
+    background-color: #2563eb;
+    padding: 2px 15px;
+    border-radius: 5px;
+    color: white;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease;
+}
+#html5-qrcode-button-camera-permission:hover {
+    background-color: #1d4ed8;
+}
+
+#html5-qrcode-button-camera-start {
+    background-color: #16a34a;
+    padding: 2px 15px;
+    border-radius: 5px;
+    color: white;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease;
+}
+#html5-qrcode-button-camera-start:hover {
+    background-color: #10b981;
+}
+
+#html5-qrcode-anchor-scan-type-change {
+    color: #1d4ed8;
+    margin-bottom: 10px;
+}
+#html5-qrcode-anchor-scan-type-change:hover {
+    color: #1e40af;
+    transition: color 0.3s ease;
+}
+
+#html5-qrcode-button-camera-stop {
+    color: #0f172a;
+}
+#html5-qrcode-button-camera-stop:hover {
+    color: #be123c;
+    transition: color 0.3s ease;
+}

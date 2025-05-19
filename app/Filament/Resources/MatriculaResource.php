@@ -7,6 +7,8 @@ use App\Models\Matricula;
 use App\Models\Seccion;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Actions\Action;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -95,15 +97,29 @@ class MatriculaResource extends Resource
                             ExcelExport::make('table')
                                 ->fromTable()
                                 ->withFilename('AlumnosMatriculados' . date('Y-m-d') . ' - export'),
-                    ]),
+                        ]),
                 ]),
                 Tables\Actions\BulkAction::make('export_qr')
                     ->button()
-                    ->label('Generar Carnet')
+                    ->label('Generar Carnet PDF')
                     ->icon('heroicon-o-document-text')
                     ->color('primary')
-                    ->action(fn ($records) => redirect()->route('pdf.carnetqr', ['records' => implode(',', $records->pluck('id')->toArray())]))
+                    // ->action(fn($records) => redirect()->route('pdf.carnetqr', ['records' => implode(',', $records->pluck('id')->toArray())]))
 
+                    ->modalHeading('Carnets Listos')
+                    ->modalDescription('Haz clic en el botón para abrir el PDF en una nueva pestaña e imprimir.')
+                    ->modalSubmitAction(function ($records) {
+                        $ids = implode(',', $records->pluck('id')->toArray());
+
+                        return Action::make('Imprimir')
+                            ->url(route('pdf.carnetqr', ['records' => $ids]))
+                            ->openUrlInNewTab()
+                            ->button()
+                            ->icon('heroicon-o-printer')
+                            ->color('success')
+                            ->close();
+                    })
+                    ->action(fn() => null)
             ]);
     }
 
@@ -122,5 +138,4 @@ class MatriculaResource extends Resource
             'edit' => Pages\EditMatricula::route('/{record}/edit'),
         ];
     }
-
 }

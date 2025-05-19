@@ -14,6 +14,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Validation\Rule;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
@@ -41,7 +42,10 @@ class AlumnoResource extends Resource
                                     ->minLength(8) // Asegura que tenga al menos 8 caracteres
                                     ->maxLength(8) // Asegura que tenga como máximo 8 caracteres
                                     ->rule('regex:/^[0-9]{8}$/') // Asegura que solo tenga 8 dígitos numéricos
-                                    ->rule('unique:alumnos,dni') // Verifica que el DNI no exista en la tabla 'alumnos'
+                                    ->rules([
+                                        fn (Forms\Get $get, ?\App\Models\Alumno $record) => 
+                                        Rule::unique('alumnos', 'dni')->ignore($record?->id),
+                                    ]) // Verifica que el DNI no exista en la tabla 'alumnos'
                                     ->placeholder('Ingrese el número de DNI')
                                     ->validationMessages([
                                         'regex' => 'El DNI debe ser de 8 dígitos.',
@@ -84,7 +88,9 @@ class AlumnoResource extends Resource
                             ->columnSpan(2)
                             ->schema([
                                 Forms\Components\FileUpload::make('imagen_url')
-                                    ->image(),
+                                    ->label('Foto')
+                                    ->image()
+                                    ->directory('alumnos'),
                             ])
                     ])
                     ->columnSpanFull()
@@ -114,7 +120,8 @@ class AlumnoResource extends Resource
                     ->getStateUsing(fn($record) => asset("storage/qrcodes/{$record->codigo_qr}.png")),
                 Tables\Columns\ImageColumn::make('imagen_url')
                     ->label('Foto')
-                    ->defaultImageUrl(url('/img/usuario.svg')),
+                    ->defaultImageUrl(url('/img/usuario.svg'))
+                    ->circular(),
             ])
             ->filters([
                 //
