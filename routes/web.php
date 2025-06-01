@@ -31,7 +31,29 @@ Route::get('/', function () {
     //     ->header('Content-Type', 'application/pdf')
     //     ->header('Content-Disposition', 'inline; filename="example.pdf"'); // muestra en el navegador
 
-    return view('pdf/carnetqr');
+    // return view('pdf/carnetqr');
+    $pdf = Browsershot::html('<h1>Hola Mundo <br> Soy Kevin Espinoza - DEV</h1>')
+    ->setOption('args', ['--disable-web-security'])
+    ->ignoreHttpsErrors()
+    ->noSandbox()
+    ->setCustomTempPath('/home/www-data/browsershot-html')
+    ->addChromiumArguments([
+        'lang' => "es-PE",
+        'hide-scrollbars',
+        'enable-font-antialiasing',
+        'force-device-scale-factor' => 1,
+        'font-render-hinting' => 'none',
+        'user-data-dir' => '/home/www-data/user-data',
+        'disk-cache-dir' => '/home/www-data/user-data/Default/Cache',
+    ])
+    ->setChromePath('/home/www-data/.cache/puppeteer/chrome/linux-136.0.7103.94/chrome-linux64/chrome')
+    ->newHeadless()
+    ->showBackground()
+    ->pdf();
+    return response($pdf, 200, [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' =>'inline; filename="example.pdf"'
+    ]);
 });
 
 Route::get('/pdf/generarte/carnet-qr/{records}', [PdfController::class, 'carnetQr'])->name('pdf.carnetqr');

@@ -34,8 +34,28 @@ class PdfController extends Controller
         $html = View::make('pdf.carnetqr', compact('matriculas'))->render();
 
         // Genera el PDF con Browsershot
+        // $pdfContent = Browsershot::html($html)
+        //     ->setOption('args', ['--no-sandbox']) // necesario si estás en un servidor Linux sin GUI
+        //     ->format('A4')
+        //     ->margins(10, 10, 10, 10)
+        //     ->showBackground()
+        //     ->pdf();
         $pdfContent = Browsershot::html($html)
-            ->setOption('args', ['--no-sandbox']) // necesario si estás en un servidor Linux sin GUI
+            ->setOption('args', ['--disable-web-security'])
+            ->ignoreHttpsErrors()
+            ->noSandbox()
+            ->setCustomTempPath('/home/www-data/browsershot-html')
+            ->addChromiumArguments([
+                'lang' => "es-PE",
+                'hide-scrollbars',
+                'enable-font-antialiasing',
+                'force-device-scale-factor' => 1,
+                'font-render-hinting' => 'none',
+                'user-data-dir' => '/home/www-data/user-data',
+                'disk-cache-dir' => '/home/www-data/user-data/Default/Cache',
+            ])
+            ->setChromePath('/home/www-data/.cache/puppeteer/chrome/linux-136.0.7103.94/chrome-linux64/chrome')
+            ->newHeadless()
             ->format('A4')
             ->margins(10, 10, 10, 10)
             ->showBackground()
