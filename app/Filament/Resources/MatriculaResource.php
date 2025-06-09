@@ -12,6 +12,7 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
@@ -20,6 +21,15 @@ class MatriculaResource extends Resource
     protected static ?string $model = Matricula::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    public static function getEloquentQuery(): Builder
+    {
+        $anioEscolarId = session('anio_escolar_id');
+        return parent::getEloquentQuery()
+        ->when($anioEscolarId, fn ($query) =>
+            $query->where('anio_escolar_id', $anioEscolarId)
+        );
+    }
 
     public static function form(Form $form): Form
     {

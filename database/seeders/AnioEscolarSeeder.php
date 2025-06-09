@@ -13,9 +13,13 @@ class AnioEscolarSeeder extends Seeder
      */
     public function run(): void
     {
-        $anioEscolar = ['2025'];
-        foreach ($anioEscolar as $anio) {
-            DB::table('anio_escolars')->insert(['nombre' => $anio, 'created_at' => now(), 'updated_at' => now()]);
-        }
+        $anioActual = now()->year;
+
+        DB::table('anio_escolars')->insert([
+            'nombre' => (string) $anioActual,
+            'estado' => 'activo',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 }

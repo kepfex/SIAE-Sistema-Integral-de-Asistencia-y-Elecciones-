@@ -274,7 +274,6 @@
                         // console.log('Respuesta del servidor: ', data);
                         if (data.success === true) {
 
-
                             // Creando el contenido del modal
                             if (document.getElementById('info-modal-header')) {
                                 const infoModalHeader = document.getElementById('info-modal-header');
@@ -294,36 +293,36 @@
                                 // const modalHeader = document.getElementById('modal-header');
                                 // modalHeader.prepend(infoModalHeader);
                             }
-                            
-                            const mainContentModal = document.querySelector('.modal-wrapper-flex');
-                            mainContentModal.innerHTML = `
-                                <div class="modal-text mb-2 ">
-                                    <p class="text-lg font-medium text-gray-900 sm:ml-4">Bienvenido(a)</p>
-                                </div>
-                                <div class="text-center sm:flex gap-4  sm:text-left bg-green-50 border border-green-200 rounded-lg shadow-lg p-4 sm:w-full">
-                                    <div class="flex justify-center mb-2">
-                                        <img class="w-32 h-36 sm:w-36 sm:h-40 overflow-hidden rounded-lg border object-cover object-top shadow-lg"
-                                            src="${data.alumno.foto ? `/storage/${data.alumno.foto}` : '/img/usuario.svg'}"
-                                            alt="Foto del alumno(a) ${data.alumno.nombres}">
+
+                            if (document.getElementById('info-modal-body')) {
+                                const mainContentModal = document.getElementById('info-modal-body');
+                                mainContentModal.innerHTML = `
+                                    <div class="modal-text mb-2 ">
+                                        <p class="text-lg font-medium text-gray-900 sm:ml-4">Bienvenido(a)</p>
                                     </div>
-                                    <div class="sm:mt-1">
-                                        <p class="text-xl font-bold leading-none pb-[1px] sm:text-2xl text-slate-900">${data.alumno.nombres}</p>
-                                        <p class="leading-none text-2xl pb-2 sm:text-3xl text-slate-800">${data.alumno.apellido_paterno} ${data.alumno.apellido_materno}</p>
-                                        <div class="font-bold w-full flex gap-2 justify-center sm:justify-start sm:mt-4 sm:text-xl text-indigo-500">
-                                            <p><span class="font-normal text-xs">Grado: </span>${data.alumno.grado}</p>
-                                            <p><span class="font-normal text-xs">Sección: </span>${data.alumno.seccion}</p>
+                                    <div class="text-center sm:flex gap-4  sm:text-left bg-green-50 border border-green-200 rounded-lg shadow-lg p-4 sm:w-full">
+                                        <div class="flex justify-center mb-2">
+                                            <img class="w-32 h-36 sm:w-36 sm:h-40 overflow-hidden rounded-lg border object-cover object-top shadow-lg"
+                                                src="${data.alumno.foto ? `/storage/${data.alumno.foto}` : '/img/usuario.svg'}"
+                                                alt="Foto del alumno(a) ${data.alumno.nombres}">
+                                        </div>
+                                        <div class="sm:mt-1">
+                                            <p class="text-xl font-bold leading-none pb-[1px] sm:text-2xl text-slate-900">${data.alumno.nombres}</p>
+                                            <p class="leading-none text-2xl pb-2 sm:text-3xl text-slate-800">${data.alumno.apellido_paterno} ${data.alumno.apellido_materno}</p>
+                                            <div class="font-bold w-full flex gap-2 justify-center sm:justify-start sm:mt-4 sm:text-xl text-indigo-500">
+                                                <p><span class="font-normal text-xs">Grado: </span>${data.alumno.grado}</p>
+                                                <p><span class="font-normal text-xs">Sección: </span>${data.alumno.seccion}</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            `;
+                                `;
+                            }
 
                             openModal();
-
-                            Livewire.dispatch('asistencia-registrada');
-
                             // Ocultar después de 5 segundos
                             setTimeout(() => {
                                 closeModal();
+                                Livewire.dispatch('asistencia-registrada');
                                 // noti.remove();
                             }, 5000);
 

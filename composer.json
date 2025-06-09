@@ -12,6 +12,8 @@
         "php": "^8.2",
         "barryvdh/laravel-dompdf": "^3.1",
         "bezhansalleh/filament-language-switch": "^3.1",
+        "codeat3/blade-eos-icons": "^1.15",
+        "codeat3/blade-iconpark": "*",
         "eightynine/filament-excel-import": "^3.1",
         "filament/filament": "3.3",
         "laravel/framework": "^11.31",

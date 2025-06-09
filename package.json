@@ -16,6 +16,6 @@
     },
     "dependencies": {
         "html5-qrcode": "^2.3.8",
-        "puppeteer": "^24.8.0"
+        "puppeteer": "^24.10.0"
     }
 }
