@@ -55,7 +55,6 @@ Route::get('/', function () {
 
     $pdf = BrowsershotHelper::fromHtml("<h1>Hola Mundo <br> Soy Kevin Espinoza - DEV</h1>")
         ->pdf();
-
     return response($pdf, 200, [
         'Content-Type' => 'application/pdf',
         'Content-Disposition' => 'inline; filename="example.pdf"'

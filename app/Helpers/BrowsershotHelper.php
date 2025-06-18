@@ -8,8 +8,8 @@ class BrowsershotHelper
 {
     public static function fromHtml(string $html): Browsershot
     {
+        
         $isWindows = PHP_OS_FAMILY === 'Windows';
-
         $chromePath = $isWindows
             ? env('BROWSERSHOT_CHROME_PATH_WINDOWS', 'C:\Program Files\Google\Chrome\Application\chrome.exe')
             : env('BROWSERSHOT_CHROME_PATH_LINUX', '/usr/bin/google-chrome'); // Ajusta si usas otro path

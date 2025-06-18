@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('auxiliar_grado_seccion_anio', function (Blueprint $table) {
             $table->id();
-            $table->unique(['user_id', 'grado_id', 'seccion_id', 'anio_escolar_id']);
+            // $table->unique(['user_id', 'grado_id', 'seccion_id', 'anio_escolar_id']);
             $table->foreignId('user_id')->constrained();
             $table->foreignId('grado_id')->constrained();
             $table->foreignId('seccion_id')->constrained();
