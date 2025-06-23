@@ -8,11 +8,12 @@ use App\Models\Seccion;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Actions\Action;
-use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
@@ -24,12 +25,41 @@ class MatriculaResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
+        $query = parent::getEloquentQuery();
         $anioEscolarId = session('anio_escolar_id');
-        return parent::getEloquentQuery()
-        ->when($anioEscolarId, fn ($query) =>
-            $query->where('anio_escolar_id', $anioEscolarId)
+        $user = Auth::user();
+
+        // Filtro por año escolar
+        $query->when(
+            $anioEscolarId,
+            fn($q) =>
+            $q->where('anio_escolar_id', $anioEscolarId)
         );
+
+        // Filtro si el usuario es auxiliar
+        if ($user && $user->hasRole('Auxiliar')) {
+            $asignaciones = $user->asignacionesAuxiliar()
+                ->where('anio_escolar_id', $anioEscolarId)
+                ->get();
+
+            $gradosIds = $asignaciones->pluck('grado_id')->unique();
+            $seccionesIds = $asignaciones->pluck('seccion_id')->unique();
+
+            $query->whereIn('grado_id', $gradosIds)
+                ->whereIn('seccion_id', $seccionesIds);
+        }
+
+        return $query;
     }
+
+    // public static function getEloquentQuery(): Builder
+    // {
+    //     $anioEscolarId = session('anio_escolar_id');
+    //     return parent::getEloquentQuery()
+    //     ->when($anioEscolarId, fn ($query) =>
+    //         $query->where('anio_escolar_id', $anioEscolarId)
+    //     );
+    // }
 
     public static function form(Form $form): Form
     {
@@ -72,7 +102,7 @@ class MatriculaResource extends Resource
                     ->label('Nombres')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('alumno')
-                    ->label('Apellido paterno')
+                    ->label('Apellidos')
                     ->formatStateUsing(fn($record) => $record->alumno->apellido_paterno . ' ' . $record->alumno->apellido_materno)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('anioEscolar.nombre')
@@ -84,7 +114,38 @@ class MatriculaResource extends Resource
                     ->sortable(),
             ])
             ->filters([
-                //
+                SelectFilter::make('grado_id')
+                    ->label('Grado')
+                    ->options(function () {
+                        $user = Auth::user();
+                        $anioEscolarId = session('anio_escolar_id');
+
+                        if ($user->hasRole('Auxiliar')) {
+                            return $user->asignacionesAuxiliar()
+                                ->where('anio_escolar_id', $anioEscolarId)
+                                ->with('grado')
+                                ->get()
+                                ->pluck('grado.nombre', 'grado.id');
+                        }
+
+                        return \App\Models\Grado::pluck('nombre', 'id');
+                    }),
+                SelectFilter::make('seccion_id')
+                    ->label('Sección')
+                    ->options(function () {
+                        $user = Auth::user();
+                        $anioEscolarId = session('anio_escolar_id');
+
+                        if ($user->hasRole('Auxiliar')) {
+                            return $user->asignacionesAuxiliar()
+                                ->where('anio_escolar_id', $anioEscolarId)
+                                ->with('seccion')
+                                ->get()
+                                ->pluck('seccion.nombre', 'seccion.id');
+                        }
+
+                        return \App\Models\Seccion::pluck('nombre', 'id');
+                    }),
             ])
             // ->headerActions([
             //     Tables\Actions\BulkAction::make('generar_qr')

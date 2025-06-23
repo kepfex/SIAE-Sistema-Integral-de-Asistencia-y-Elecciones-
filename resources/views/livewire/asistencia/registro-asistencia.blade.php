@@ -3,28 +3,79 @@
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/html5-qrcode/html5-qrcode-custom.css') }}">
 <link rel="stylesheet" href="{{ asset('css/reloj/reloj.css') }}">
-{{-- Estilos para animaciones (requeridos por tu JS original) --}}
+{{-- Estilos para animaciones --}}
 <style>
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
-    @keyframes scaleIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-    @keyframes scaleOut { from { transform: scale(1); opacity: 1; } to { transform: scale(0.95); opacity: 0; } }
-    .animate-fadeIn { animation: fadeIn 0.3s ease-out forwards; }
-    .animate-fadeOut { animation: fadeOut 0.3s ease-in forwards; }
-    .animate-scaleIn { animation: scaleIn 0.3s ease-out forwards; }
-    .animate-scaleOut { animation: scaleOut 0.3s ease-in forwards; }
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes fadeOut {
+        from {
+            opacity: 1;
+        }
+
+        to {
+            opacity: 0;
+        }
+    }
+
+    @keyframes scaleIn {
+        from {
+            transform: scale(0.95);
+            opacity: 0;
+        }
+
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    @keyframes scaleOut {
+        from {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        to {
+            transform: scale(0.95);
+            opacity: 0;
+        }
+    }
+
+    .animate-fadeIn {
+        animation: fadeIn 0.3s ease-out forwards;
+    }
+
+    .animate-fadeOut {
+        animation: fadeOut 0.3s ease-in forwards;
+    }
+
+    .animate-scaleIn {
+        animation: scaleIn 0.3s ease-out forwards;
+    }
+
+    .animate-scaleOut {
+        animation: scaleOut 0.3s ease-in forwards;
+    }
 </style>
 @endpush
 
-<div class="bg-slate-100 min-h-screen font-sans">
+<div class="bg-slate-100 h-screen font-sans">
     {{-- ENCABEZADO --}}
-    <header class="w-full bg-sky-600 shadow-lg">
+    <header class="w-full bg-blue-500 shadow-lg">
         <nav class="w-[95%] md:w-[90%] mx-auto py-3 flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <img class="w-12 h-12" src="{{ asset('img/insignia.png') }}" alt="Insignia">
+                <img class="w-10" src="{{ asset('img/insignia.png') }}" alt="Insignia">
                 <div class="uppercase font-bold text-white">
-                    <span class="block text-sm tracking-wide">I.E. Emblemático</span>
-                    <span class="text-xs font-light opacity-90">"Aurelio Cárdenas Pachas"</span>
+                    <span class="block text-sm tracking-wide">C.N. Emblemático</span>
+                    <span class="text-xs font-light opacity-95">"Aurelio Cárdenas Pachas"</span>
                 </div>
             </div>
             <div class="flex gap-4">
@@ -32,6 +83,30 @@
                     <span class="block text-xs leading-none pb-1 uppercase font-light opacity-90">Año Escolar</span>
                     <span class="font-semibold leading-none text-2xl tracking-wider">{{ $ultimoAnioEscolar ? $ultimoAnioEscolar->nombre : '---' }}</span>
                 </div>
+                <div class="flex items-center justify-center bg-white h-10 w-10 rounded-full">
+                    {{-- Icono de Router Conectado (Inicialmente visible, color se asigna por JS) --}}
+                    <svg id="router-on-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-router w-6 h-6">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M3 13m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z" />
+                        <path d="M17 17l0 .01" />
+                        <path d="M13 17l0 .01" />
+                        <path d="M15 13l0 -2" />
+                        <path d="M11.75 8.75a4 4 0 0 1 6.5 0" />
+                        <path d="M8.5 6.5a8 8 0 0 1 13 0" />
+                    </svg>
+
+                    {{-- Icono de Router Desconectado (Inicialmente oculto) --}}
+                    <svg id="router-off-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-router-off w-6 h-6 hidden">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M17 13h2a2 2 0 0 1 2 2v2m-.588 3.417c-.362 .36 -.861 .583 -1.412 .583h-14a2 2 0 0 1 -2 -2v-4a2 2 0 0 1 2 -2h8" />
+                        <path d="M17 17v.01" />
+                        <path d="M13 17v.01" />
+                        <path d="M12.226 8.2a4 4 0 0 1 6.024 .55" />
+                        <path d="M9.445 5.407a8 8 0 0 1 12.055 1.093" />
+                        <path d="M3 3l18 18" />
+                    </svg>
+                </div>
+
             </div>
         </nav>
     </header>
@@ -40,7 +115,7 @@
         <div class="mb-6 min-[900px]:mb-8 md:flex md:justify-between md:items-center">
             <h2 class="text-center min-[900px]:text-left text-4xl font-bold pt-10 text-slate-700">Control de Asistencia</h2>
             {{-- WIDGET DE RELOJ (SIN CAMBIOS) --}}
-            <div id="widget-reloj" class="flex flex-col items-center mt-4 md:mt-0" wire:ignore>
+            <div id="widget-reloj" class="flex flex-col items-center mt-4" wire:ignore>
                 <div id="fecha" class="flex gap-2 text-slate-500 font-medium">
                     <p id="diaSemana"></p>
                     <p id="dia"></p>
@@ -50,12 +125,32 @@
                     <p id="year"></p>
                 </div>
                 <div class="clock" aria-label="00:00:00 AM">
-                    <div class="clock__block clock__block--delay2" aria-hidden="true" data-time-group><div class="clock__digit-group clock__hora"><div class="clock__digits" data-time="a">00</div><div class="clock__digits" data-time="b">00</div></div></div>
+                    <div class="clock__block clock__block--delay2" aria-hidden="true" data-time-group>
+                        <div class="clock__digit-group clock__hora">
+                            <div class="clock__digits" data-time="a">00</div>
+                            <div class="clock__digits" data-time="b">00</div>
+                        </div>
+                    </div>
                     <div class="clock__colon"></div>
-                    <div class="clock__block clock__block--delay1" aria-hidden="true" data-time-group><div class="clock__digit-group clock__minutos"><div class="clock__digits" data-time="a">00</div><div class="clock__digits" data-time="b">00</div></div></div>
+                    <div class="clock__block clock__block--delay1" aria-hidden="true" data-time-group>
+                        <div class="clock__digit-group clock__minutos">
+                            <div class="clock__digits" data-time="a">00</div>
+                            <div class="clock__digits" data-time="b">00</div>
+                        </div>
+                    </div>
                     <div class="clock__colon"></div>
-                    <div class="clock__block" aria-hidden="true" data-time-group><div class="clock__digit-group"><div class="clock__digits" data-time="a">00</div><div class="clock__digits" data-time="b">00</div></div></div>
-                    <div class="clock__block clock__block--delay2 clock__block--small" aria-hidden="true" data-time-group><div class="clock__digit-group"><div class="clock__digits" data-time="a">PM</div><div class="clock__digits" data-time="b">AM</div></div></div>
+                    <div class="clock__block" aria-hidden="true" data-time-group>
+                        <div class="clock__digit-group">
+                            <div class="clock__digits" data-time="a">00</div>
+                            <div class="clock__digits" data-time="b">00</div>
+                        </div>
+                    </div>
+                    <div class="clock__block clock__block--delay2 clock__block--small" aria-hidden="true" data-time-group>
+                        <div class="clock__digit-group">
+                            <div class="clock__digits" data-time="a">PM</div>
+                            <div class="clock__digits" data-time="b">AM</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -89,7 +184,7 @@
                     </div>
                 </div>
                 <div class="relative shadow-md sm:rounded-lg overflow-hidden border border-slate-200">
-                    <div class="max-h-[420px] overflow-auto">
+                    <div class="max-h-[410px] overflow-auto">
                         <table class="w-full text-sm text-left text-slate-600">
                             <thead class="text-xs text-white uppercase bg-sky-600">
                                 <tr>
@@ -138,15 +233,17 @@
             <div id="modal-container" class="inline-block align-middle bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl w-full">
                 <div id="modal-header" class="flex items-center justify-between py-2 px-4 border-b border-slate-200 rounded-t">
                     <div id="info-modal-header" class="flex gap-2 items-center">
-                        </div>
+                    </div>
                     <button id="close-modal" type="button" class="text-slate-400 bg-transparent hover:bg-slate-200 hover:text-slate-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" /></svg>
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
                         <span class="sr-only">Close modal</span>
                     </button>
                 </div>
                 <div class="modal-wrapper bg-white px-4 pt-5 pb-7">
                     <div id="info-modal-body" class="modal-wrapper-flex flex flex-col items-center sm:items-start">
-                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -158,10 +255,26 @@
 @push('scripts')
 <script src="{{ asset('js/html5-qrcode.min.js') }}"></script>
 <script src="{{ asset('js/reloj/reloj.js') }}"></script>
-<script>
+<script type="module">
+    import {
+        checkInternetAccess,
+        updateConnectionRouterIcons
+    } from "{{ asset('js/connectivity.js') }}";
+
+    // Lógica para los iconos de conexión
+    // Inicializa el estado de los iconos al cargar la página
+    updateConnectionRouterIcons();
+
+    // Actualiza el estado de los iconos cada 10 segundos
+    setInterval(() => {
+        updateConnectionRouterIcons();
+    }, 10000); // Cada 10 segundos
+
     // Espera a que Livewire termine de inicializarse
     document.addEventListener('livewire:initialized', function() {
 
+
+        // --- Lógica del escáner QR y el Modal ---
         const closeButton = document.querySelector("#close-modal");
         const modalContainer = document.querySelector(
             "#modal-component-container"
@@ -215,9 +328,8 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                        // console.log('Respuesta del servidor: ', data);
+                        console.log('Respuesta del servidor: ', data);
                         if (data.success === true) {
-
                             // Creando el contenido del modal
                             if (document.getElementById('info-modal-header')) {
                                 const infoModalHeader = document.getElementById('info-modal-header');
@@ -259,8 +371,37 @@
                                      </div>
                                 `;
                             }
-
+                            // Abrir Modal
                             openModal();
+                            
+                            // **Verifica la conexión a Internet antes de enviar WhatsApp**
+                            checkInternetAccess().then(isConnectedToInternet => {
+                                if (isConnectedToInternet) {
+                                    console.warn('Hay internet, enviar mensaje de whatsapp');
+                                    // fetch("/api/enviar-whatsapp", {
+                                    //         method: 'POST',
+                                    //         headers: {
+                                    //             'Content-Type': 'application/json'
+                                    //         },
+                                    //         body: JSON.stringify({
+                                    //             telefono: data.alumno.celular_whatsapp,
+                                    //             estudiante: data.alumno.full_name,
+                                    //             grado: data.alumno.grado,
+                                    //             seccion: data.alumno.seccion,
+                                    //             tipo: data.alumno.tipo,
+                                    //             fecha: data.alumno.fecha,
+                                    //             hora: data.alumno.hora
+                                    //         })
+                                    //     })
+                                    //     .then(response => response.json())
+                                    //     .then(wsp => console.log("Respuesta WhatsApp:", wsp))
+                                    //     .catch(error => console.error("Error WhatsApp:", error));
+                                } else {
+                                    console.warn("No se pudo enviar el mensaje de WhatsApp: No hay conexión a Internet.");
+                                }
+                            });
+
+                            // Cerrar Modal y actualizar tabla despues de 3 segundos
                             setTimeout(() => {
                                 closeModal();
                                 Livewire.dispatch('asistencia-registrada');
@@ -310,7 +451,10 @@
             }
         }
 
-        const html5QrcodeScanner = new Html5QrcodeScanner("qr-reader", { fps: 10, qrbox: 250 });
+        const html5QrcodeScanner = new Html5QrcodeScanner("qr-reader", {
+            fps: 10,
+            qrbox: 250
+        });
         html5QrcodeScanner.render(onScanSuccess);
     });
 </script>
