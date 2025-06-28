@@ -35,4 +35,9 @@ class Matricula extends Model
     {
         return $this->belongsTo(Seccion::class);
     }
+
+    public function asistencias()
+    {
+        return $this->hasMany(Asistencia::class);
+    }
 }

@@ -71,12 +71,12 @@ class AlumnoResource extends Resource
                                     ])
                                     ->required(),
                                 Forms\Components\TextInput::make('celular')
-                                    ->label('N° de Celular')
+                                    ->label('N° de WhatsApp del Apoderado')
                                     ->numeric() // Asegura que solo se acepten números
                                     ->minLength(9) // Asegura que tenga al menos 9 caracteres
                                     ->maxLength(9) // Asegura que tenga como máximo 9 caracteres
                                     ->rule('regex:/^9[0-9]{8}$/') // Asegura que el número comience con "9" y tenga 9 dígitos
-                                    ->placeholder('Ingrese el número de celular del apoderado')
+                                    ->placeholder('Ingrese el número de WhatsApp del apoderado')
                                     ->validationMessages([
                                         'regex' => 'El número de celular debe comenzar con 9.',
                                         'min_digits' => 'El número de celular debe tener 9 dígitos.',
