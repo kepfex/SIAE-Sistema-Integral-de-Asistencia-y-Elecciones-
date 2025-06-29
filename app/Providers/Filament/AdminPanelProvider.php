@@ -57,7 +57,6 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->brandName('Filament Demo')
-            ->viteTheme('resources/css/app.css');
+            ->brandName('SIAE - ACP');
     }
 }
