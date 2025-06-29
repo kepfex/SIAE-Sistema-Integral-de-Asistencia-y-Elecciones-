@@ -114,7 +114,7 @@
     <main class="w-[95%] md:w-[90%] mx-auto">
         <div class="mb-6 min-[900px]:mb-8 md:flex md:justify-between md:items-center">
             <h2 class="text-center min-[900px]:text-left text-4xl font-bold pt-10 text-slate-700">Control de Asistencia</h2>
-            {{-- WIDGET DE RELOJ (SIN CAMBIOS) --}}
+            {{-- WIDGET DE RELOJ --}}
             <div id="widget-reloj" class="flex flex-col items-center mt-4" wire:ignore>
                 <div id="fecha" class="flex gap-2 text-slate-500 font-medium">
                     <p id="diaSemana"></p>
@@ -225,7 +225,6 @@
         </div>
     </main>
 
-    {{-- MODAL ORIGINAL (SIN CAMBIOS ESTRUCTURALES) --}}
     <div id="modal-component-container" class="hidden fixed inset-0 z-50">
         <div class="modal-flex-container flex justify-center items-center min-h-screen p-4 px-4 text-center sm:block sm:p-0">
             <div class="modal-bg-container fixed inset-0 bg-black/60"></div>
@@ -248,6 +247,7 @@
             </div>
         </div>
     </div>
+    <audio id="qr-beep-sound" src="{{ asset('sounds/scanner-beep.mp3') }}"></audio>
 </div>
 
 
@@ -315,6 +315,10 @@
                 countResults++;
 
                 console.log(`QR Detectado: ${decodedText}`, decodedResult);
+                // Reproduce un sonido al escanear
+                document.getElementById('qr-beep-sound').play().catch(err => {
+                    console.warn("No se pudo reproducir el sonido:", err);
+                });
 
                 fetch("{{ url('/api/asistencia/registrar') }}", {
                         method: 'POST',
@@ -373,7 +377,7 @@
                             }
                             // Abrir Modal
                             openModal();
-                            
+
                             // **Verifica la conexión a Internet antes de enviar WhatsApp**
                             checkInternetAccess().then(isConnectedToInternet => {
                                 if (isConnectedToInternet) {

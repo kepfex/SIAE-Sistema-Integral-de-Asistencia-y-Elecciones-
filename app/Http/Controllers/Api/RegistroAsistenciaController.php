@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Alumno;
 use App\Models\AnioEscolar;
 use App\Models\Asistencia;
+use App\Models\Horario;
 use App\Services\WhatsappService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -68,13 +69,33 @@ class RegistroAsistenciaController extends Controller
             ], 409);
         }
 
+        // Obtener el horario del turno mañana
+        $horario = Horario::where('turno', 'mañana')->first();
+        $horaActual = now()->format('H:i:s');
+
+        // Evaluar estado según el horario
+        $estado = null;
+        if ($horaActual < $horario->hora_inicio) {
+            return response()->json([
+                'success' => false,
+                'message' => 'La hora actual es muy temprana para registrar asistencia.',
+            ], 403);
+        } elseif ($horaActual <= $horario->hora_tolerancia) {
+            $estado = 'A'; // Asistencia puntual
+        } elseif ($horaActual <= $horario->hora_maxima) {
+            $estado = 'T'; // Tardanza
+        } else {
+            $estado = 'F'; // Considerado Falta (no dentro del rango)
+        }
+        Log::info("Estado: $estado" . " - Hora actual: " . $horaActual);
+        
         // Registrar la asistencia
         $dataForWhatsApp = [];
         $dataForModal = [];
         $asistencia = Asistencia::create([
             'fecha' => now()->toDateString(),
-            'hora' => now()->format('H:i:s'),
-            'estado' => 'A', // Asistió
+            'hora' => $horaActual,
+            'estado' => $estado,
             'matricula_id' => $matricula->id,
             'anio_escolar_id' => $ultimoAnioEscolar->id,
             'grado_id' => $matricula->grado_id,

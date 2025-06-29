@@ -22,6 +22,11 @@ class AsistenciaResource extends Resource
     protected static ?string $model = Asistencia::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $title = 'Asistencias por día';
+    
+    protected static ?int $navigationSort = 10;
+    protected static ?string $navigationGroup = 'Asistencia';
+    protected static ?string $navigationLabel = 'Asistencia diaria';
 
     public static function getEloquentQuery(): Builder
     {

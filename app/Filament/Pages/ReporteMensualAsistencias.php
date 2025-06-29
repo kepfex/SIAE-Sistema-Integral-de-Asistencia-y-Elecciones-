@@ -13,4 +13,7 @@ class ReporteMensualAsistencias extends Page
     protected static string $view = 'filament.pages.reporte-mensual-asistencias';
     protected static ?string $title = 'Reporte Mensual de Asistencias';
     
+    protected static ?int $navigationSort = 20;
+    protected static ?string $navigationGroup = 'Asistencia';
+    protected static ?string $navigationLabel = 'Reporte Mensual';
 }

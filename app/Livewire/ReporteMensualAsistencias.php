@@ -24,30 +24,38 @@ class ReporteMensualAsistencias extends Component
         $this->mes = now()->month;
     }
 
-    public function updated($field)
+    public function updatedGradoId()
     {
-        if (in_array($field, ['gradoId', 'seccionId', 'mes'])) {
-            $this->generarReporte();
-        }
+        $this->generarReporte();
+    }
+
+    public function updatedSeccionId()
+    {
+        $this->generarReporte();
+    }
+
+    public function updatedMes()
+    {
+        $this->generarReporte();
     }
 
     public function generarReporte()
     {
         if (!$this->anioEscolarId || !$this->gradoId || !$this->seccionId || !$this->mes) return;
-        
+
         $anio = now()->year;
-        $mes = $this->mes;
-        
+        $mes = (int) $this->mes; // 👈 Cast explícito
+
         $this->diasDelMes = $this->generarDiasDelMes($anio, $mes);
-        
+
         $matriculas = Matricula::with(['alumno', 'asistencias' => function ($query) use ($anio, $mes) {
             $query->whereYear('fecha', $anio)
-            ->whereMonth('fecha', $mes);
+                ->whereMonth('fecha', $mes);
         }])
-        ->where('anio_escolar_id', $this->anioEscolarId)
-        ->where('grado_id', $this->gradoId)
-        ->where('seccion_id', $this->seccionId)
-        ->get();
+            ->where('anio_escolar_id', $this->anioEscolarId)
+            ->where('grado_id', $this->gradoId)
+            ->where('seccion_id', $this->seccionId)
+            ->get();
 
         $this->tabla = $matriculas->map(function ($matricula) {
             $datos = [

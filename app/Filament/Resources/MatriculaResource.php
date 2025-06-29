@@ -21,7 +21,7 @@ class MatriculaResource extends Resource
 {
     protected static ?string $model = Matricula::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'iconpark-checklist';
 
     public static function getEloquentQuery(): Builder
     {
