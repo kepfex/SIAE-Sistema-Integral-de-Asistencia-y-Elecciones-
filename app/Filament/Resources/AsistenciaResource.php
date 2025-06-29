@@ -90,7 +90,7 @@ class AsistenciaResource extends Resource
                     ->label('Estado')
                     ->badge()
                     ->color(fn(string $state): string => match ($state) {
-                        'Asistió' => 'success',
+                        'Puntual' => 'success',
                         'Faltó' => 'danger',
                         'Tardanza' => 'warning',
                         'Falta Justificada' => 'info',

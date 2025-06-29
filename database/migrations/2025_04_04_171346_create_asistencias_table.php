@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->date('fecha');
             $table->time('hora');
-            $table->enum('estado', ['A', 'F', 'T', 'J', 'U'])->comment('A: Asistió, F: Faltó, T: Tardanza, J: Falta Justificada, U: Tardanza Justificada');
+            $table->enum('estado', ['P', 'F', 'T', 'J', 'U'])->comment('P: Puntual, F: Faltó, T: Tardanza, J: Falta Justificada, U: Tardanza Justificada');
             $table->foreignId('matricula_id')->constrained();
             $table->foreignId('anio_escolar_id')->constrained();
             $table->foreignId('grado_id')->constrained();

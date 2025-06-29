@@ -53,7 +53,7 @@ class Asistencia extends Model
     public function getEstadoNombreAttribute()
     {
         return match ($this->estado) {
-            'A' => 'Asistió',
+            'P' => 'Puntual',
             'F' => 'Faltó',
             'T' => 'Tardanza',
             'J' => 'Falta Justificada',

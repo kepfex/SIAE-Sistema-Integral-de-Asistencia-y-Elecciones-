@@ -1,4 +1,3 @@
-{{-- Este es el componente de Blade completo y rediseñado con la columna fija --}}
 <div class="p-4 sm:p-6 bg-gray-50 dark:bg-gray-900/50 rounded-2xl shadow-lg">
     <div class="space-y-6">
         
@@ -69,49 +68,75 @@
         </div>
 
 
-        {{-- Tabla de Resultados --}}
+        {{-- Sección de Resultados: Tabla y Leyenda --}}
         @if(!empty($tabla))
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead class="bg-gray-100 dark:bg-gray-700/50">
-                    <tr>
-                        <th scope="col" class="sticky left-0 z-20 px-3 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider bg-gray-100 dark:bg-gray-700/50">#</th>
-                        
-                        {{-- ENCABEZADO FIJO --}}
-                        <th scope="col" class="sticky left-10 z-20 px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider bg-gray-100 dark:bg-gray-700/50">Nombres y Apellidos</th>
-                        
-                        @foreach($diasDelMes as $dia)
-                        <th scope="col" class="px-2 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            <span>{{ $dia['numero'] }}</span>
-                            <span class="block">{{ $dia['nombre_corto'] }}</span>
-                        </th>
+        <div class="space-y-4">
+            {{-- Tabla de Resultados --}}
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <thead class="bg-gray-100 dark:bg-gray-700/50">
+                        <tr>
+                            <th scope="col" class="sticky left-0 z-20 px-3 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider bg-gray-100 dark:bg-gray-700/50">#</th>
+                            <th scope="col" class="sticky left-10 z-20 px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider bg-gray-100 dark:bg-gray-700/50">Nombres y Apellidos</th>
+                            @foreach($diasDelMes as $dia)
+                            <th scope="col" class="px-2 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                <span>{{ $dia['numero'] }}</span>
+                                <span class="block">{{ $dia['nombre_corto'] }}</span>
+                            </th>
+                            @endforeach
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                        @foreach($tabla as $index => $fila)
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/20 transition-colors duration-150">
+                            <td class="sticky left-0 z-10 px-3 py-2 text-center text-sm text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800">{{ $index + 1 }}</td>
+                            <td class="sticky left-10 z-10 px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800">{{ $fila['alumno'] }}</td>
+                            @foreach($diasDelMes as $dia)
+                                @php
+                                    $estado = $fila['asistencias'][$dia['numero']] ?? '';
+                                    $colorClasses = match($estado) {
+                                        'P' => 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300',
+                                        'F' => 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300',
+                                        'T' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300',
+                                        'J' => 'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300',
+                                        'U' => 'bg-gray-200 text-gray-800 dark:bg-gray-600 dark:text-gray-200',
+                                        default => 'bg-gray-50 dark:bg-gray-700/30',
+                                    };
+                                @endphp
+                                <td class="px-2 py-2 text-center text-sm font-mono font-bold {{ $colorClasses }}">{{ $estado }}</td>
+                            @endforeach
+                        </tr>
                         @endforeach
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                    @foreach($tabla as $index => $fila)
-                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/20 transition-colors duration-150">
-                        <td class="sticky left-0 z-10 px-3 py-2 text-center text-sm text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800">{{ $index + 1 }}</td>
+                    </tbody>
+                </table>
+            </div>
 
-                        {{-- CELDA DE DATOS FIJA --}}
-                        <td class="sticky left-10 z-10 px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800">{{ $fila['alumno'] }}</td>
-                        
-                        @foreach($diasDelMes as $dia)
-                            @php
-                                $estado = $fila['asistencias'][$dia['numero']] ?? '';
-                                $colorClasses = match($estado) {
-                                    'A' => 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300',
-                                    'F' => 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300',
-                                    'T' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300',
-                                    default => 'bg-gray-50 dark:bg-gray-700/30',
-                                };
-                            @endphp
-                            <td class="px-2 py-2 text-center text-sm font-mono font-bold {{ $colorClasses }}">{{ $estado }}</td>
-                        @endforeach
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <!-- Leyenda de Estados -->
+            <div class="p-4 border rounded-xl bg-white dark:bg-gray-800 dark:border-gray-700 shadow-sm">
+                <h4 class="text-md font-semibold mb-3 text-gray-800 dark:text-white">Leyenda de Asistencia</h4>
+                <div class="flex flex-wrap items-center gap-x-6 gap-y-3">
+                    <div class="flex items-center gap-2">
+                        <span class="flex items-center justify-center w-6 h-6 rounded text-xs font-mono font-bold bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300">P</span>
+                        <span class="text-sm text-gray-700 dark:text-gray-300">Puntual</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="flex items-center justify-center w-6 h-6 rounded text-xs font-mono font-bold bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300">F</span>
+                        <span class="text-sm text-gray-700 dark:text-gray-300">Faltó</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="flex items-center justify-center w-6 h-6 rounded text-xs font-mono font-bold bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300">T</span>
+                        <span class="text-sm text-gray-700 dark:text-gray-300">Tardanza</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="flex items-center justify-center w-6 h-6 rounded text-xs font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300">J</span>
+                        <span class="text-sm text-gray-700 dark:text-gray-300">Falta Justificada</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="flex items-center justify-center w-6 h-6 rounded text-xs font-mono font-bold bg-gray-200 text-gray-800 dark:bg-gray-600 dark:text-gray-200">U</span>
+                        <span class="text-sm text-gray-700 dark:text-gray-300">Tardanza Justificada</span>
+                    </div>
+                </div>
+            </div>
         </div>
         @else
             <div class="text-center py-12 px-4 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl">

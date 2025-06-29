@@ -196,7 +196,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- CÓDIGO BLADE ORIGINAL (SIN ALTERAR) --}}
                                 @foreach ($asistenciasDelDia as $asistencia)
                                 <tr class="bg-white border-b border-slate-200 hover:bg-sky-50 transition-colors duration-200">
                                     <td class="px-6 py-3 font-medium text-slate-800">

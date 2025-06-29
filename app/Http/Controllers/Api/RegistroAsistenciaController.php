@@ -81,7 +81,7 @@ class RegistroAsistenciaController extends Controller
                 'message' => 'La hora actual es muy temprana para registrar asistencia.',
             ], 403);
         } elseif ($horaActual <= $horario->hora_tolerancia) {
-            $estado = 'A'; // Asistencia puntual
+            $estado = 'P'; // Asistencia puntual
         } elseif ($horaActual <= $horario->hora_maxima) {
             $estado = 'T'; // Tardanza
         } else {
@@ -113,7 +113,7 @@ class RegistroAsistenciaController extends Controller
                 'foto' => $alumno->imagen_url,
                 'grado' => $matricula->grado->nombre,
                 'seccion' => $matricula->seccion->nombre,
-                'tipo' => 'Ingreso', // o 'Salida'
+                'tipo' => 'INGRESO', // o 'Salida'
                 'fecha' => now()->translatedFormat('d \d\e F \d\e Y'),
                 'hora' => now()->format('h:i A'),
             ];
