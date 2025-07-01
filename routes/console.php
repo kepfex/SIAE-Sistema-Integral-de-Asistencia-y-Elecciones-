@@ -10,5 +10,5 @@ Artisan::command('inspire', function () {
 
 Schedule::command('asistencia:marcar-ausentes')
         ->weekdays()
-        ->dailyAt('23:40')
+        ->dailyAt('16:15')
         ->timezone('America/Lima');
