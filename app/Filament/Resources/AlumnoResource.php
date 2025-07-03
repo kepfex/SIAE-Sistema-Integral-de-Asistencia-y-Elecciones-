@@ -17,6 +17,7 @@ use Filament\Tables\Table;
 use Illuminate\Validation\Rule;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use pxlrbt\FilamentExcel\Exports\ExcelExport;
+use Illuminate\Support\Facades\Storage;
 
 
 class AlumnoResource extends Resource
@@ -90,7 +91,22 @@ class AlumnoResource extends Resource
                                 Forms\Components\FileUpload::make('imagen_url')
                                     ->label('Foto')
                                     ->image()
-                                    ->directory('alumnos'),
+                                    ->disk('public')
+                                    ->directory('alumnos')
+                                    ->visibility('public')
+                                    ->imageEditor()
+                                    ->imageEditorAspectRatios([
+                                        '16:9',
+                                        '4:3',
+                                        '1:1',
+                                    ])
+                                    ->optimize('webp')
+                                    ->resize(60)
+                                    ->deleteUploadedFileUsing(function ($file, $record) {
+                                        if ($record && $record->imagen_url && \Storage::disk('public')->exists($record->imagen_url)) {
+                                            \Storage::disk('public')->delete($record->imagen_url);
+                                        }
+                                    }),
                             ])
                     ])
                     ->columnSpanFull()
@@ -120,8 +136,18 @@ class AlumnoResource extends Resource
                     ->getStateUsing(fn($record) => asset("storage/qrcodes/{$record->codigo_qr}.png")),
                 Tables\Columns\ImageColumn::make('imagen_url')
                     ->label('Foto')
-                    ->defaultImageUrl(url('/img/usuario.svg'))
-                    ->circular(),
+                    ->disk('public') 
+                    ->circular()
+                    ->getStateUsing(function ($record) {
+                        $ruta = $record->imagen_url;
+                
+                        if ($ruta && Storage::disk('public')->exists($ruta)) {
+                            return asset("storage/{$ruta}");
+                        }
+                
+                        // Si no hay imagen válida, mostrar imagen por defecto
+                        return url('/img/usuario.svg');
+                    }),
             ])
             ->filters([
                 //

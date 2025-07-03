@@ -16,6 +16,7 @@
         "codeat3/blade-iconpark": "*",
         "eightynine/filament-excel-import": "^3.1",
         "filament/filament": "3.3",
+        "joshembling/image-optimizer": "^1.6",
         "laravel/framework": "^11.31",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",

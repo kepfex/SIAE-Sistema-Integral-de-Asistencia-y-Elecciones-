@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use pxlrbt\FilamentExcel\Exports\ExcelExport;
+use Illuminate\Support\Facades\Storage;
 
 class MatriculaResource extends Resource
 {
@@ -94,6 +95,27 @@ class MatriculaResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('alumno.imagen_url')
+                    ->label('Foto')
+                    ->disk('public')
+                    ->circular()
+                    ->getStateUsing(function ($record) {
+                        $ruta = $record->alumno?->imagen_url;
+                
+                        if ($ruta && Storage::disk('public')->exists($ruta)) {
+                            return asset("storage/{$ruta}");
+                        }
+                
+                        return url('/img/usuario.svg');
+                    })
+                    ->openUrlInNewTab(true)
+                    ->tooltip('Editar estudiante')
+                    ->extraAttributes(['class' => 'cursor-pointer hover:opacity-80'])
+                    ->url(fn ($record) => AlumnoResource::getUrl('edit', [
+                        'record' => $record->alumno->id,
+                        'desde' => 'matriculas',
+                    ]))
+                    ->openUrlInNewTab(false),
                 Tables\Columns\TextColumn::make('alumno.dni')
                     ->label('Nro DNI')
                     ->searchable()
