@@ -29,9 +29,9 @@
 </style> -->
 
 <body>
-    <section class="flex flex-wrap justify-center  gap-[2px]">
+    <section class="flex flex-wrap justify-center  gap-x-[2px] gap-y-[4px]">
         @foreach ($matriculas as $index => $matricula)
-        <div class="w-[340px] h-52 border border-blue-600 rounded-md overflow-hidden flex flex-col relative">
+        <div class="w-[375px] h-[225px] border border-blue-600 rounded-md overflow-hidden flex flex-col relative">
             <div class="absolute bottom-1 right-2 flex gap-1 items-end text-sm text-gray-500">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-phone-call">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -43,7 +43,7 @@
             </div>
             <div class="bg-blue-600 text-center relative py-2">
                 <p class="text-white font-medium text-sm leading-none">C.N.E. "Aurelio Cárdenas Pachas"</p>
-                <img class="w-9 absolute left-2 top-2" src="{{ public_path('img/insignia.png') }}" alt="insignia ACP">
+                <img class="w-10 absolute left-2 top-2" src="{{ public_path('img/insignia.png') }}" alt="insignia ACP">
             </div>
             <div class="flex gap-1 justify-between flex-1 px-2">
                 <div class="flex-1">
@@ -54,19 +54,19 @@
                         ? $rutaImagen
                         : public_path('img/usuario.svg');
                         @endphp
-                        <img class="w-24 h-28 overflow-hidden rounded-xl object-cover object-top border-2 border-green-600"
+                        <img class="w-28 h-32 overflow-hidden rounded-xl object-cover object-top border-2 border-green-600"
                             src="{{ $rutaImagen }}" alt="foto alumno(a)">
                         <div class="relative text-gray-800">
                             <div class="absolute -left-[1px]">
                                 <div class="mt-2">
-                                    <span class="text-xs ml-1">Grado:</span>
-                                    <p class="text-[13px] py-[2px] px-1 font-semibold border border-green-600 bg-green-100 rounded-r-md leading-none">
+                                    <span class="text-sm ml-1">Grado:</span>
+                                    <p class="text-base py-[2px] px-1 font-semibold border border-green-600 bg-green-100 rounded-r-md leading-none">
                                         {{ $matricula->grado->nombre }}
                                     </p>
                                 </div>
                                 <div class="mt-1">
-                                    <span class="text-xs ml-1 block">Sección:</span>
-                                    <p class="text-[13px] font-semibold border border-green-600 bg-green-100 rounded-r-md py-[2px] pl-1 pr-2 inline-block leading-none">
+                                    <span class="text-sm ml-1 block">Sección:</span>
+                                    <p class="text-base font-semibold border border-green-600 bg-green-100 rounded-r-md py-[2px] pl-1 pr-2 inline-block leading-none">
                                         "{{ $matricula->seccion->nombre }}"
                                     </p>
                                 </div>
@@ -83,7 +83,7 @@
                     </div>
                 </div>
                 <div class="flex flex-col justify-center items-center">
-                    <img class="w-32"
+                    <img class="w-[140px]"
                         src="{{ public_path('storage/qrcodes/' . $matricula->alumno->codigo_qr) . '.png' }}"
                         alt="imagen-qr">
                 </div>

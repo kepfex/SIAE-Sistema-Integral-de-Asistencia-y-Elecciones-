@@ -127,6 +127,8 @@ class MatriculaResource extends Resource
                     ->label('Apellidos')
                     ->formatStateUsing(fn($record) => $record->alumno->apellido_paterno . ' ' . $record->alumno->apellido_materno)
                     ->sortable(),
+                Tables\Columns\TextColumn::make('alumno.celular')
+                    ->label('# WhatsApp'),
                 Tables\Columns\TextColumn::make('anioEscolar.nombre')
                     ->label('Periodo Escolar')
                     ->sortable(),
