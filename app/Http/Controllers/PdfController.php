@@ -28,7 +28,7 @@ class PdfController extends Controller
 
         $pdfContent = BrowsershotHelper::fromHtml($html)
             ->format('A4')
-            ->margins(32, 5, 24, 5)
+            ->margins(20, 5, 20, 5)
             ->pdf();
 
         return response($pdfContent)

@@ -21,6 +21,7 @@ class WhatsappController extends Controller
         $validated = $request->validate([
             'telefono' => 'required|string',
             'estudiante' => 'required|string',
+            'genero' => 'required|string',
             'grado' => 'required|string',
             'seccion' => 'required|string',
             'tipo' => 'required|string',
@@ -28,27 +29,36 @@ class WhatsappController extends Controller
             'hora' => 'required|string',
         ]);
 
-        try {
-            $enviado = $this->whatsapp->enviarMensajeAsistencia($validated);
+        // \App\Models\WhatsappMensaje::create($validated);
 
-            if ($enviado) {
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Mensaje enviado correctamente.'
-                ]);
-            }
+        return response()->json([
+            'success' => true,
+            'message' => 'Mensaje agregado a la cola.',
+            'estudiante' => $validated,
+        ]);
+        
 
-            return response()->json([
-                'success' => false,
-                'message' => 'Error al enviar el mensaje de WhatsApp.',
-            ], 500);
-        } catch (\Throwable $e) {
-            Log::error('Excepción al enviar WhatsApp', ['error' => $e->getMessage()]);
-            return response()->json([
-                'success' => false,
-                'message' => 'Ocurrió un error inesperado.',
-                'error' => $e->getMessage()
-            ], 500);
-        }
+        // try {
+        //     $enviado = $this->whatsapp->enviarMensajeAsistencia($validated);
+
+        //     if ($enviado) {
+        //         return response()->json([
+        //             'success' => true,
+        //             'message' => 'Mensaje enviado correctamente.'
+        //         ]);
+        //     }
+
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => 'Error al enviar el mensaje de WhatsApp.',
+        //     ], 500);
+        // } catch (\Throwable $e) {
+        //     Log::error('Excepción al enviar WhatsApp', ['error' => $e->getMessage()]);
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => 'Ocurrió un error inesperado.',
+        //         'error' => $e->getMessage()
+        //     ], 500);
+        // }
     }
 }

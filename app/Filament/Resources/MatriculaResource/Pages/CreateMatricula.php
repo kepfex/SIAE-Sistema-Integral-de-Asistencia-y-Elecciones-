@@ -9,6 +9,7 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateMatricula extends CreateRecord
 {
     protected static string $resource = MatriculaResource::class;
+    protected static bool $canCreateAnother = false;
 
     protected function getRedirectUrl(): string
     {

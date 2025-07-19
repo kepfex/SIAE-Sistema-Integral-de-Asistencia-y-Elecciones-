@@ -8,37 +8,20 @@
 
     <title>Carnets QR - Estudiantes</title>
 
-    <!-- <link rel="stylesheet" href="{{ public_path('css/normalize.css') }}">
-    <link rel="stylesheet" href="{{ public_path('css/pdf/carnet-qr.css') }}"> -->
-    <!-- <link rel="stylesheet" href="{{ public_path('build/assets/app-SxQOaE6u.css') }}"> -->
-
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     @livewireStyles
 
-    <!-- @stack('styles')  {{-- Agregado --}} -->
 </head>
-
-<!-- <style>
-    @page {
-        margin-top: 5mm;
-        /* Margen superior */
-        margin-bottom: 5mm;
-        /* Margen inferior */
-    }
-</style> -->
-
 <body>
     <section class="flex flex-wrap justify-center  gap-x-[2px] gap-y-[4px]">
         @foreach ($matriculas as $index => $matricula)
         <div class="w-[375px] h-[225px] border border-blue-600 rounded-md overflow-hidden flex flex-col relative">
             <div class="absolute bottom-1 right-2 flex gap-1 items-end text-sm text-gray-500">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-phone-call">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" />
-                    <path d="M15 7a2 2 0 0 1 2 2" />
-                    <path d="M15 3a6 6 0 0 1 6 6" />
-                </svg>
+                
+                <svg  xmlns="http://www.w3.org/2000/svg"  width="18"  height="18"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-whatsapp"><path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9" /><path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1" />
+            </svg>
                 <span class="font-medium leading-none">{{ $matricula->alumno->celular ? $matricula->alumno->celular : '---' }}</span>
             </div>
             <div class="bg-blue-600 text-center relative py-2">
@@ -89,6 +72,10 @@
                 </div>
             </div>
         </div>
+            {{-- Condición para insertar un salto de página después de cada 4 filas --}}
+            @if (($index + 1) % 8 === 0)
+                <div style="page-break-after: always;"></div>
+            @endif
         @endforeach
     </section>
 </body>

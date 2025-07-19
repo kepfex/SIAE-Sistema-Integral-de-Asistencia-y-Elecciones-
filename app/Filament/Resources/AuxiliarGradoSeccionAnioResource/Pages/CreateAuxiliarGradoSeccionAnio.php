@@ -11,6 +11,7 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateAuxiliarGradoSeccionAnio extends CreateRecord
 {
     protected static string $resource = AuxiliarGradoSeccionAnioResource::class;
+    protected static bool $canCreateAnother = false;
 
     public function create(bool $another = false): void
     {

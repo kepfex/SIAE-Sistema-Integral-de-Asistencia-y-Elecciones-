@@ -81,6 +81,7 @@ class AuxiliarGradoSeccionAnioResource extends Resource
                 TextColumn::make('seccion.nombre')->label('Sección'),
                 TextColumn::make('anioEscolar.nombre')->label('Año Escolar'),
             ])
+            ->recordUrl(null) // Esto desactiva el clic en toda la fila
             ->filters([
                 //
             ])

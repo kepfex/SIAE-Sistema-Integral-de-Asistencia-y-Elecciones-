@@ -63,6 +63,7 @@ class HorarioResource extends Resource
                 TextColumn::make('hora_maxima')
                     ->label('Máxima'),
             ])
+            ->recordUrl(null) // Esto desactiva el clic en toda la fila
             ->filters([
                 //
             ])

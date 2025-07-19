@@ -97,6 +97,7 @@ class UserResource extends Resource
                     ->label(__('Creado'))
                     ->date('d/m/Y H:i')
             ])
+            ->recordUrl(null) // Esto desactiva el clic en toda la fila
             ->filters([
                 // SelectFilter::make('roles')
                 //     ->label(__('Roles'))

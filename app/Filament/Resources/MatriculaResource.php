@@ -128,7 +128,8 @@ class MatriculaResource extends Resource
                     ->formatStateUsing(fn($record) => $record->alumno->apellido_paterno . ' ' . $record->alumno->apellido_materno)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('alumno.celular')
-                    ->label('# WhatsApp'),
+                    ->label('# WhatsApp')
+                    ->color('primary'),
                 Tables\Columns\TextColumn::make('anioEscolar.nombre')
                     ->label('Periodo Escolar')
                     ->sortable(),
@@ -137,6 +138,7 @@ class MatriculaResource extends Resource
                 Tables\Columns\TextColumn::make('seccion.nombre')
                     ->sortable(),
             ])
+            ->recordUrl(null) // Esto desactiva el clic en toda la fila
             ->filters([
                 SelectFilter::make('grado_id')
                     ->label('Grado')

@@ -152,6 +152,7 @@ class AlumnoResource extends Resource
             ->filters([
                 //
             ])
+            ->recordUrl(null) // Esto desactiva el clic en toda la fila
             ->actions([
                 ActionGroup::make([
                     ViewAction::make(),

@@ -60,6 +60,7 @@ class PermissionResource extends Resource
                     ->searchable()
                     ->sortable(),
             ])
+            ->recordUrl(null) // Esto desactiva el clic en toda la fila
             ->filters([
                 //
             ])

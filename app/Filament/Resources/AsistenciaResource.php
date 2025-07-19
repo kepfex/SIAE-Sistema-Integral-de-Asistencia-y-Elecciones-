@@ -6,6 +6,7 @@ use App\Filament\Resources\AsistenciaResource\Pages;
 use App\Models\Asistencia;
 use App\Models\Grado;
 use App\Models\Seccion;
+use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -62,7 +63,79 @@ class AsistenciaResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\Select::make('matricula_id')
+                    ->label('Estudiante: Nombres y Apellidos')
+                    ->searchable()
+                    ->getSearchResultsUsing(function (string $search) {
+                        return \App\Models\Matricula::whereHas('alumno', function ($query) use ($search) {
+                                $query->whereRaw("CONCAT(nombres, ' ', apellido_paterno, ' ', apellido_materno) LIKE ?", ["%{$search}%"]);
+                            })
+                            ->where('anio_escolar_id', session('anio_escolar_id'))
+                            ->with('alumno')
+                            ->limit(50)
+                            ->get()
+                            ->mapWithKeys(function ($matricula) {
+                                $alumno = $matricula->alumno;
+                                return [$matricula->id => "{$alumno->nombres} {$alumno->apellido_paterno} {$alumno->apellido_materno}"];
+                            });
+                    })
+                    ->getOptionLabelUsing(function ($value): ?string {
+                        $matricula = \App\Models\Matricula::with('alumno')->find($value);
+                        if (!$matricula || !$matricula->alumno) return null;
+
+                        return "{$matricula->alumno->nombres} {$matricula->alumno->apellido_paterno} {$matricula->alumno->apellido_materno}";
+                    })
+                    ->preload()
+                    ->required()
+                    ->reactive()
+                    ->afterStateUpdated(function ($state, \Filament\Forms\Set $set) {
+                        $matricula = \App\Models\Matricula::with(['grado', 'seccion'])->find($state);
+
+                        if ($matricula) {
+                            $set('grado_id', $matricula->grado_id);
+                            $set('seccion_id', $matricula->seccion_id);
+                        } else {
+                            $set('grado_id', null);
+                            $set('seccion_id', null);
+                        }
+                    }),
+                Forms\Components\DatePicker::make('fecha')
+                    ->label('Fecha de Asistencia')
+                    ->default(now())
+                    ->required(),
+    
+                Forms\Components\TimePicker::make('hora')
+                    ->label('Hora de Ingreso')
+                    ->default(now()->format('H:i'))
+                    ->required(),
+    
+                Forms\Components\Select::make('estado')
+                    ->label('Estado')
+                    ->options([
+                        'P' => 'Puntual',
+                        'T' => 'Tardanza',
+                        'F' => 'Faltó',
+                        'J' => 'Falta Justificada',
+                        'U' => 'Tardanza Justificada',
+                    ])
+                    ->required(),
+    
+                Forms\Components\Select::make('grado_id')
+                    ->label('Grado')
+                    ->options(\App\Models\Grado::pluck('nombre', 'id'))
+                    ->disabled()
+                    ->dehydrated(true)
+                    ->required(),
+                
+                Forms\Components\Select::make('seccion_id')
+                    ->label('Sección')
+                    ->options(\App\Models\Seccion::pluck('nombre', 'id'))
+                    ->disabled()
+                    ->dehydrated(true)
+                    ->required(),
+    
+                Forms\Components\Hidden::make('anio_escolar_id')
+                    ->default(fn () => session('anio_escolar_id')),
             ]);
     }
 
@@ -101,6 +174,7 @@ class AsistenciaResource extends Resource
                 TextColumn::make('seccion.nombre')->label('Sección'),
 
             ])
+            ->recordUrl(null) // Esto desactiva el clic en toda la fila
             ->filters([
                 // Filtro por fecha
                 Filter::make('fecha')

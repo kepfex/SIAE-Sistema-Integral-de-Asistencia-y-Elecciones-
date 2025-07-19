@@ -109,6 +109,7 @@ class RegistroAsistenciaController extends Controller
                 'nombres' => $alumno->nombres,
                 'apellido_paterno' => $alumno->apellido_paterno,
                 'apellido_materno' => $alumno->apellido_materno,
+                'genero' => $alumno->genero,
                 'celular_whatsapp' => $alumno->celular ?? '51918659150',
                 'foto' => $alumno->imagen_url,
                 'grado' => $matricula->grado->nombre,

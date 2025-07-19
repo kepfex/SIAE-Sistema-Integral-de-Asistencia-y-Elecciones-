@@ -9,4 +9,5 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateHorario extends CreateRecord
 {
     protected static string $resource = HorarioResource::class;
+    protected static bool $canCreateAnother = false;
 }

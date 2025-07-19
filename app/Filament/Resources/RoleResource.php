@@ -51,11 +51,13 @@ class RoleResource extends Resource
     {
         return $table
             ->columns([
+
                 TextColumn::make('nombre')
                     ->label(__('Nombre'))
                     ->searchable()
                     ->sortable(),
             ])
+            ->recordUrl(null) // Esto desactiva el clic en toda la fila
             ->filters([
                 //
             ])
