@@ -12,3 +12,8 @@ Schedule::command('asistencia:marcar-ausentes')
         ->weekdays()
         ->dailyAt('16:15')
         ->timezone('America/Lima');
+
+Schedule::command('whatsapp:procesar-cola')
+    ->weekdays()
+    ->everyMinute()
+    ->timezone('America/Lima');

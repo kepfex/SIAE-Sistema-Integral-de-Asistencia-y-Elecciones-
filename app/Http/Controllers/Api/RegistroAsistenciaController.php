@@ -88,7 +88,7 @@ class RegistroAsistenciaController extends Controller
             $estado = 'F'; // Considerado Falta (no dentro del rango)
         }
         Log::info("Estado: $estado" . " - Hora actual: " . $horaActual);
-        
+
         // Registrar la asistencia
         $dataForWhatsApp = [];
         $dataForModal = [];
@@ -104,13 +104,15 @@ class RegistroAsistenciaController extends Controller
 
         if ($asistencia) {
             // Preparar datos del estudiante
+            $numeroLimpio = preg_replace('/\D/', '', $alumno->celular ?? '');
+
             $dataEstudiante = [
                 'full_name' => $alumno->nombres . ' ' . $alumno->apellido_paterno . ' ' . $alumno->apellido_materno,
                 'nombres' => $alumno->nombres,
                 'apellido_paterno' => $alumno->apellido_paterno,
                 'apellido_materno' => $alumno->apellido_materno,
                 'genero' => $alumno->genero,
-                'celular_whatsapp' => $alumno->celular ?? '51918659150',
+                'celular_whatsapp' => $alumno, //->celular ?? '51918659150',
                 'foto' => $alumno->imagen_url,
                 'grado' => $matricula->grado->nombre,
                 'seccion' => $matricula->seccion->nombre,
@@ -118,17 +120,22 @@ class RegistroAsistenciaController extends Controller
                 'fecha' => now()->translatedFormat('d \d\e F \d\e Y'),
                 'hora' => now()->format('h:i A'),
             ];
-            // Preparar datos para el mensaje
-            // $whatsapp = new WhatsappService();
-            // $whatsapp->enviarMensajeAsistencia([
-            //     'telefono' => $alumno->celular ?? '51918659150',
-            //     'nombre' => $alumno->nombres . ' ' . $alumno->apellido_paterno . ' ' . $alumno->apellido_materno,
-            //     'grado' => $matricula->grado->nombre,
-            //     'seccion' => $matricula->seccion->nombre,
-            //     'tipo' => 'Ingreso', // o 'Salida'
-            //     'fecha' => now()->translatedFormat('d \d\e F \d\e Y'),
-            //     'hora' => now()->format('h:i A'),
-            // ]);
+
+            // Solo si el número es válido (9 dígitos)
+            if (strlen($numeroLimpio) === 9) {
+                \App\Models\WhatsappMensaje::create([
+                    'telefono' => $numeroLimpio,
+                    'estudiante' => $dataEstudiante['full_name'],
+                    'genero' => $dataEstudiante['genero'],
+                    'grado' => $dataEstudiante['grado'],
+                    'seccion' => $dataEstudiante['seccion'],
+                    'tipo' => $dataEstudiante['tipo'],
+                    'fecha' => $dataEstudiante['fecha'],
+                    'hora' => $dataEstudiante['hora'],
+                ]);
+            } else {
+                Log::warning("Alumno sin número válido de WhatsApp: {$alumno->dni} - {$dataEstudiante['full_name']}");
+            }
         }
 
         return response()->json([

@@ -29,7 +29,7 @@ class WhatsappController extends Controller
             'hora' => 'required|string',
         ]);
 
-        // \App\Models\WhatsappMensaje::create($validated);
+        \App\Models\WhatsappMensaje::create($validated);
 
         return response()->json([
             'success' => true,

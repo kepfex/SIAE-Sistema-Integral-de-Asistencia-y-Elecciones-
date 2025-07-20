@@ -83,9 +83,9 @@
                     <span class="block text-xs leading-none pb-1 uppercase font-light opacity-90">Año Escolar</span>
                     <span class="font-semibold leading-none text-2xl tracking-wider">{{ $ultimoAnioEscolar ? $ultimoAnioEscolar->nombre : '---' }}</span>
                 </div>
-                <div class="flex items-center justify-center bg-white h-10 w-10 rounded-full">
+                {{-- <div class="flex items-center justify-center bg-white h-10 w-10 rounded-full"> --}}
                     {{-- Icono de Router Conectado (Inicialmente visible, color se asigna por JS) --}}
-                    <svg id="router-on-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-router w-6 h-6">
+                    {{-- <svg id="router-on-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-router w-6 h-6">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                         <path d="M3 13m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z" />
                         <path d="M17 17l0 .01" />
@@ -93,10 +93,10 @@
                         <path d="M15 13l0 -2" />
                         <path d="M11.75 8.75a4 4 0 0 1 6.5 0" />
                         <path d="M8.5 6.5a8 8 0 0 1 13 0" />
-                    </svg>
+                    </svg> --}}
 
                     {{-- Icono de Router Desconectado (Inicialmente oculto) --}}
-                    <svg id="router-off-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-router-off w-6 h-6 hidden">
+                    {{-- <svg id="router-off-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-router-off w-6 h-6 hidden">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                         <path d="M17 13h2a2 2 0 0 1 2 2v2m-.588 3.417c-.362 .36 -.861 .583 -1.412 .583h-14a2 2 0 0 1 -2 -2v-4a2 2 0 0 1 2 -2h8" />
                         <path d="M17 17v.01" />
@@ -104,8 +104,8 @@
                         <path d="M12.226 8.2a4 4 0 0 1 6.024 .55" />
                         <path d="M9.445 5.407a8 8 0 0 1 12.055 1.093" />
                         <path d="M3 3l18 18" />
-                    </svg>
-                </div>
+                    </svg> --}}
+                {{-- </div> --}}
 
             </div>
         </nav>
@@ -225,22 +225,24 @@
     </main>
 
     <div id="modal-component-container" class="hidden fixed inset-0 z-50">
-        <div class="modal-flex-container flex justify-center items-center min-h-screen p-4 px-4 text-center sm:block sm:p-0">
-            <div class="modal-bg-container fixed inset-0 bg-black/60"></div>
-            <div class="modal-space-container hidden sm:inline-block sm:align-middle sm:h-screen"></div>
-            <div id="modal-container" class="inline-block align-middle bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl w-full">
-                <div id="modal-header" class="flex items-center justify-between py-2 px-4 border-b border-slate-200 rounded-t">
-                    <div id="info-modal-header" class="flex gap-2 items-center">
-                    </div>
-                    <button id="close-modal" type="button" class="text-slate-400 bg-transparent hover:bg-slate-200 hover:text-slate-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                        </svg>
+        <div class="modal-flex-container flex items-center justify-center min-h-screen p-4 text-center">
+            
+            <div class="modal-bg-container fixed inset-0 bg-black/50 backdrop-blur-sm"></div>
+
+            <div id="modal-container" 
+                class="relative inline-block bg-slate-50 rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 w-full max-w-md lg:max-w-4xl">
+                
+                <div class="absolute top-0 right-0 pt-4 pr-4">
+                    <button id="close-modal" type="button" class="bg-slate-100 rounded-md p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition">
                         <span class="sr-only">Close modal</span>
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
                     </button>
                 </div>
-                <div class="modal-wrapper bg-white px-4 pt-5 pb-7">
-                    <div id="info-modal-body" class="modal-wrapper-flex flex flex-col items-center sm:items-start">
+
+                <div class="modal-wrapper">
+                    <div id="info-modal-header"></div> <div id="info-modal-body">
                     </div>
                 </div>
             </div>
@@ -249,25 +251,23 @@
     <audio id="qr-beep-sound" src="{{ asset('sounds/scanner-beep.mp3') }}"></audio>
 </div>
 
-
-{{-- SCRIPT ORIGINAL (CON CAMBIO MENOR DE COLOR EN MODAL) --}}
 @push('scripts')
 <script src="{{ asset('js/html5-qrcode.min.js') }}"></script>
 <script src="{{ asset('js/reloj/reloj.js') }}"></script>
 <script type="module">
-    import {
-        checkInternetAccess,
-        updateConnectionRouterIcons
-    } from "{{ asset('js/connectivity.js') }}";
+    // import {
+    //     checkInternetAccess,
+    //     updateConnectionRouterIcons
+    // } from "{{ asset('js/connectivity.js') }}";
 
-    // Lógica para los iconos de conexión
-    // Inicializa el estado de los iconos al cargar la página
-    updateConnectionRouterIcons();
+    // // Lógica para los iconos de conexión
+    // // Inicializa el estado de los iconos al cargar la página
+    // updateConnectionRouterIcons();
 
-    // Actualiza el estado de los iconos cada 10 segundos
-    setInterval(() => {
-        updateConnectionRouterIcons();
-    }, 10000); // Cada 10 segundos
+    // // Actualiza el estado de los iconos cada 10 segundos
+    // setInterval(() => {
+    //     updateConnectionRouterIcons();
+    // }, 10000); // Cada 10 segundos
 
     // Espera a que Livewire termine de inicializarse
     document.addEventListener('livewire:initialized', function() {
@@ -313,7 +313,8 @@
                 lastResult = decodedText;
                 countResults++;
 
-                console.log(`QR Detectado: ${decodedText}`, decodedResult);
+                // console.log(`QR Detectado: ${decodedText}`, decodedResult);
+
                 // Reproduce un sonido al escanear
                 document.getElementById('qr-beep-sound').play().catch(err => {
                     console.warn("No se pudo reproducir el sonido:", err);
@@ -323,7 +324,6 @@
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            // 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                         },
                         body: JSON.stringify({
                             qrAlumno: decodedText
@@ -334,75 +334,46 @@
                         console.log('Respuesta del servidor: ', data);
                         if (data.success === true) {
                             // Creando el contenido del modal
-                            if (document.getElementById('info-modal-header')) {
-                                const infoModalHeader = document.getElementById('info-modal-header');
-                                infoModalHeader.innerHTML = `
-                                         <div class="h-10 w-10 rounded-full bg-green-100 mx-auto flex-shrink-0 flex items-center justify-center sm:mx-0 sm:h-12 sm:w-12">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-user-check text-green-600">
-                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
-                                                <path d="M6 21v-2a4 4 0 0 1 4 -4h4" />
-                                                 <path d="M15 19l2 2l4 -4" />
-                                            </svg>
-                                        </div>
-                                         <h3 class="font-medium text-green-700 text-lg md:text-base">
-                                            ${data.message}
-                                         </h3>
-                                    `;
-                            }
+                            const mainContentModal = document.getElementById('info-modal-body');
+                            mainContentModal.innerHTML = `
+                            <div class="lg:grid lg:grid-cols-3">
+            
+                                <div class="relative lg:col-span-1 flex items-center justify-center p-8 bg-gradient-to-br from-blue-500 to-blue-700">
+                                    <div class="text-center">
+                                        <img class="w-40 h-42 lg:w-48 lg:h-50 rounded-lg object-cover object-top shadow-2xl border-4 border-white/50 mx-auto"
+                                            src="${data.alumno.foto ? `/storage/${data.alumno.foto}` : '/img/usuario.svg'}"
+                                            alt="Foto de ${data.alumno.nombres}">
+                                        <p class="mt-4 text-base font-semibold text-white">${data.message}</p>
+                                    </div>
+                                </div>
 
-                            if (document.getElementById('info-modal-body')) {
-                                const mainContentModal = document.getElementById('info-modal-body');
-                                mainContentModal.innerHTML = `
-                                    <div class="modal-text mb-2 ">
-                                        <p class="text-lg font-medium text-slate-800 sm:ml-4">¡Bienvenido(a)!</p>
-                                     </div>
-                                    <div class="text-center sm:flex gap-4  sm:text-left bg-green-50 border border-green-200 rounded-lg shadow-lg p-4 sm:w-full">
-                                         <div class="flex justify-center mb-2">
-                                            <img class="w-32 h-36 sm:w-36 sm:h-40 overflow-hidden rounded-lg border object-cover object-top shadow-lg"
-                                                 src="${data.alumno.foto ? `/storage/${data.alumno.foto}` : '/img/usuario.svg'}"
-                                                alt="Foto del alumno(a) ${data.alumno.nombres}">
-                                         </div>
-                                        <div class="sm:mt-1">
-                                            <p class="text-xl font-bold leading-none pb-[1px] sm:text-2xl text-slate-900">${data.alumno.nombres}</p>
-                                            <p class="leading-none text-2xl pb-2 sm:text-3xl text-slate-700">${data.alumno.apellido_paterno} ${data.alumno.apellido_materno}</p>
-                                            <div class="font-bold w-full flex gap-2 justify-center sm:justify-start sm:mt-4 sm:text-xl text-sky-600">
-                                                <p><span class="font-normal text-xs">Grado: </span>${data.alumno.grado}</p>
-                                                 <p><span class="font-normal text-xs">Sección: </span>${data.alumno.seccion}</p>
+                                <div class="lg:col-span-2 p-8">
+                                    <h2 class="text-base font-semibold leading-7 text-blue-600">¡Bienvenido(a) de vuelta!</h2>
+                                    
+                                    <p class="mt-1 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">${data.alumno.nombres}</p>
+                                    <p class="mt-1 text-3xl tracking-tight text-slate-600 sm:text-4xl">${data.alumno.apellido_paterno} ${data.alumno.apellido_materno}</p>
+                                    
+                                    <div class="mt-8 border-t border-slate-200 pt-8">
+                                        <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-8">
+                                            
+                                            <div class="sm:col-span-1">
+                                                <dt class="text-sm font-medium text-slate-500">Grado y Sección</dt>
+                                                <dd class="mt-1">
+                                                    <span class="inline-flex items-center rounded-md bg-blue-50 px-3 py-1 text-lg font-bold text-blue-700 ring-1 ring-inset ring-blue-600/20">${data.alumno.grado} "${data.alumno.seccion}"</span>
+                                                </dd>
                                             </div>
-                                        </div>
-                                     </div>
-                                `;
-                            }
+
+                                            <div class="sm:col-span-1">
+                                                <dt class="text-sm font-medium text-slate-500">Hora de Registro</dt>
+                                                <dd class="mt-1 text-lg font-semibold text-slate-800">${new Date().toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</dd>
+                                            </div>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                            `;
                             // Abrir Modal
                             openModal();
-
-                            // **Verifica la conexión a Internet antes de enviar WhatsApp**
-                            checkInternetAccess().then(isConnectedToInternet => {
-                                if (isConnectedToInternet) {
-                                    console.warn('Hay internet, enviar mensaje de whatsapp');
-                                    // fetch("/api/enviar-whatsapp", {
-                                    //         method: 'POST',
-                                    //         headers: {
-                                    //             'Content-Type': 'application/json'
-                                    //         },
-                                    //         body: JSON.stringify({
-                                    //             telefono: data.alumno.celular_whatsapp,
-                                    //             estudiante: data.alumno.full_name,
-                                    //             grado: data.alumno.grado,
-                                    //             seccion: data.alumno.seccion,
-                                    //             tipo: data.alumno.tipo,
-                                    //             fecha: data.alumno.fecha,
-                                    //             hora: data.alumno.hora
-                                    //         })
-                                    //     })
-                                    //     .then(response => response.json())
-                                    //     .then(wsp => console.log("Respuesta WhatsApp:", wsp))
-                                    //     .catch(error => console.error("Error WhatsApp:", error));
-                                } else {
-                                    console.warn("No se pudo enviar el mensaje de WhatsApp: No hay conexión a Internet.");
-                                }
-                            });
 
                             // Cerrar Modal y actualizar tabla despues de 3 segundos
                             setTimeout(() => {
@@ -410,32 +381,27 @@
                                 Livewire.dispatch('asistencia-registrada');
                             }, 3000);
                         } else {
-                            if (document.getElementById('info-modal-header')) {
-                                const infoModalHeader = document.getElementById('info-modal-header');
-                                infoModalHeader.innerHTML = `
-                                    <div class="h-10 w-10 rounded-full bg-red-100 mx-auto flex-shrink-0 flex items-center justify-center sm:mx-0 sm:h-12 sm:w-12">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-alert-triangle text-red-600">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                             <path d="M12 9v4" />
-                                            <path d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636 -2.87l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0z" />
-                                               <path d="M12 16h.01" />
+                            const infoModalBody = document.getElementById('info-modal-body');
+                            infoModalBody.innerHTML = `
+                                <div class="p-8 sm:p-12 text-center">
+                                    <div class="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-red-100">
+                                        <svg class="h-12 w-12 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126z" />
                                         </svg>
                                     </div>
-                                      <h3 class="font-medium text-red-800 text-lg md:text-base">
-                                        Mensaje de advertencia    
-                                     </h3>
-                                `;
-                            }
 
-                            if (document.getElementById('info-modal-body')) {
-                                const infoModalBody = document.getElementById('info-modal-body');
-                                infoModalBody.innerHTML = `
-                                    <div class="modal-content text-center mt-3 sm:mt-0 sm:ml-4 sm:text-left mb-2">
-                                        <p class="text-slate-600 text-lg">${data.message}</p>
-                                     </div>
-                                `;
-                            }
-
+                                    <div class="mt-5">
+                                        <h3 class="text-xl font-bold text-slate-900">
+                                            Mensaje de Advertencia
+                                        </h3>
+                                        <div class="mt-2">
+                                            <p class="text-2xl text-slate-600">
+                                                ${data.message}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
                             openModal();
                             setTimeout(() => {
                                 closeModal();
